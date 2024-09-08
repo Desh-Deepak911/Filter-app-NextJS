@@ -1,17 +1,28 @@
 'use client';
 
-import { Button, TextField, Callout, Text } from '@radix-ui/themes'
-import SimpleMDE from "react-simplemde-editor";
-import axios from 'axios';
-import { useForm, Controller } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import "easymde/dist/easymde.min.css";
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { createIssueSchema } from '@/app/validationSchemas';
-import { z } from 'zod';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import Spinners from '@/app/components/Spinners';
+import { createIssueSchema } from '@/app/validationSchemas';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button, Callout, TextField } from '@radix-ui/themes';
+import axios from 'axios';
+import "easymde/dist/easymde.min.css";
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Controller, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+/**
+ * SimpleMDE is a client side component, but since nextJS renders every component on the server side,
+ * we need to disable the component to be rendered on the server side, and make sure it is rendered as a client side component
+ * For this, we use dynamic function present inside next.
+ */
+
+const SimpleMDE = dynamic(
+    () => import('react-simplemde-editor'),
+    {ssr: false}
+);
 
 type IssueForm = z.infer<typeof createIssueSchema>
 
