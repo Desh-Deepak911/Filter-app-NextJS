@@ -15,7 +15,7 @@ import Spinners from '@/app/components/Spinners';
 
 type IssueForm = z.infer<typeof createIssueSchema>
 
-const NewIssuePage = () => {
+const NewIssuePage = async () => {
     const router = useRouter();
     const { register, control, handleSubmit, formState: { errors } } = useForm<IssueForm>({
         resolver: zodResolver(createIssueSchema)
